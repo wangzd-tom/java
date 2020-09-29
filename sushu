@@ -1,0 +1,27 @@
+public class a{
+	public static void main (String args []){
+		int conter = 0 ;
+		for(int x = 1 ; x<=10000 ; x++){
+			//int conter = 0 ; 不对因为此时循环后 conter归零
+			boolean shisushu = true ;
+			for(int y = 2 ; y<x ; y++){
+				if(x%y==0){
+					shisushu = false ;
+					break ;
+				}
+			}
+			if(shisushu){
+				System.out.print(x + " ") ;
+				conter ++ ;
+                /*if(conter%8==0){
+				  System.out.println() ;
+				  conter = 0 ;
+				  */
+                if(conter==8){
+					System.out.println() ;
+					conter =0 ;
+				}
+			}
+		}
+	}
+}
