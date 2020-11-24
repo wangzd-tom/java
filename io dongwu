@@ -1,0 +1,260 @@
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class End {
+    static int number = 1;
+
+    public static void main(String[] args) {
+        try {
+            ArrayList<Animals> animals = new ArrayList<>();
+            while (true) {
+                System.out.println("欢迎来到动物管理系统");
+                System.out.println("1 添加一个新的动物");
+                System.out.println("2 查找动物");
+                System.out.println("3 对所有动物的年龄进行排序");
+                System.out.println("4 删除一个已有的动物");
+                System.out.println("5 对已有的动物进行信息的删改");
+                System.out.println("6 输出所有动物的信息");
+                System.out.println("7 输出成文件");
+                System.out.println("8 文件内容输入"+"\n"+"注意文件一定为d:\\student1.txt"+"\n"+"若没有请自行创建");
+                Scanner sc = new Scanner(System.in);
+                int choice = sc.nextInt();
+                switch (choice) {
+                    case 1://1
+                        add(animals);
+                        break;
+                    case 2://1
+                        search(animals);
+                        break;
+                    case 3://1
+                        paixu(animals);
+                        break;
+                    case 4:
+                        remove(animals);
+                        break;
+                    case 5://1
+                        change(animals);
+                        break;
+                    case 6://1
+                        output(animals);
+                        break;
+                    case 7:
+                        shuchu(animals);
+                    case 8:
+                        duqu(animals);
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void add(ArrayList<Animals> animals) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        Animals a = new Animals();//创建动物对象
+        System.out.print("输入动物的年龄，例如15，16...");
+        int ageSet = sc.nextInt();
+        System.out.print("输入动物的名字，例如表哥，寅子...");
+        String name = sc.next();
+        System.out.print("输入动物的种类，例如大象，河马...");
+        String kind = sc.next();
+        a.setAge(ageSet);
+        a.setKind(kind);
+        a.setName(name);
+        a.setNum(number);
+        number++;
+        animals.add(a);
+       /* System.out.println(animals.toString());
+        System.out.println(animals.size());*/
+    }//完成
+
+    public static void change(ArrayList<Animals> animals) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("输入你要改变的动物的编号");
+        int num = sc.nextInt();
+        int change = num - 1;
+        if (num < animals.size() && num > animals.size()) {
+            System.out.println("输入有误");
+        } else {
+            Animals s = animals.get(change);
+            System.out.println("输入新的动物名称");
+            String name = sc.next();
+            System.out.println("输入新的动物品种");
+            String kind = sc.next();
+            System.out.println("输入新的动物年龄");
+            int age = sc.nextInt();
+            s.setName(name);
+            s.setKind(kind);
+            s.setAge(age);
+        }
+    }//完成
+
+    public static void output(ArrayList<Animals> animals) {
+ /*       Scanner sc = new Scanner(System.in);
+        System.out.println("");
+        int num = sc.nextInt();
+        int change = num - 1;
+        Animals s = animals.get(change);*/
+        System.out.println(animals.toString());
+    }//完成
+
+    public static void remove(ArrayList<Animals> animals) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("输入你要删除的动物的编号");
+        int num = sc.nextInt();
+        int change = num - 1;
+        Animals s = animals.get(change);
+        animals.remove(s);
+        for (int i = 0; i <= animals.size(); i++) {
+            if (i >= change) {
+                for (int a = change; a < animals.size(); a++) {
+                    Animals animals1 = animals.get(a);
+                    animals1.setNum(a + 1);
+                }
+            } else {
+
+            }
+        }
+    }
+
+    public static void search(ArrayList<Animals> animals) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("输入你要查找的的动物的编号和信息，name/age/kind");
+        int num = sc.nextInt();
+        String information = sc.next();
+        Animals s = animals.get(num - 1);
+        if (information.equals("name")) {
+            System.out.println(s.getName());
+        } else if (information.equals("age")) {
+            System.out.println(s.getAge());
+        } else if (information.equals("kind")) {
+            System.out.println(s.getKind());
+        } else {
+            System.out.println("输入有误");
+        }
+    }//完成
+
+    public static void paixu(ArrayList<Animals> animals) {
+        for (int i = 0; i < animals.size() - 1; i++) {
+            int j = i + 1;
+            Animals a = animals.get(i);
+            Animals b = animals.get(j);
+            if (a.getAge() <= b.getAge()) {
+                System.out.println("排序完成");
+            } else {
+                int e = a.getAge();
+                String f = a.getName();
+                a.setName(b.getName());
+                String g = a.getKind();
+                a.setAge(b.getAge());
+                a.setKind(b.getKind());
+                b.setAge(e);
+                b.setKind(g);
+                b.setName(f);
+                System.out.println("排序完成");
+            }
+        }
+    }
+
+    public static void shuchu(ArrayList<Animals> animals) throws Exception {
+        File file = new File("d:" + File.separator + "student.txt");
+        if (!file.exists()) {
+            file.getParentFile().mkdirs();
+        }
+        System.out.println(file.createNewFile());
+        OutputStream outputStream = new FileOutputStream(file);
+        String str = animals.toString();
+        byte data[] = str.getBytes();
+        outputStream.write(data);
+        outputStream.close();
+    }
+
+    /*public static void duqu(ArrayList<Animals> animals) throws Exception {
+        File file = new File("d:" + File.separator + "student1.txt");
+        String r = null;
+        try {
+            InputStream input = new FileInputStream(file);
+            InputStreamReader input1 = new InputStreamReader(input);
+            BufferedReader buf = new BufferedReader(input1);
+            String string = null;
+            while (((string = buf.readLine()) != null)) {
+                r = string + " ";
+            }
+                String[] a = r.split(" ");
+                    if (a.length > 0) {
+                        Animals s = new Animals();
+                      *//*  int b = Integer.parseInt(a[0]);
+                        int c = Integer.parseInt(a[1]);*//*
+                        s.setNum(1);
+                        s.setAge(1);
+                        s.setName(a[0]);
+                        s.setKind("a[1]");
+                        animals.add(s);
+                    }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }*/
+    public static void duqu(ArrayList<Animals> animals) throws Exception {
+        File file = new File("d:" + File.separator + "student1.txt");
+        try {
+            if (file.exists()) {
+                InputStream input = new FileInputStream(file);
+                byte data[] = new byte[1024];
+                int len = input.read(data);
+                String r = new String(data, 0, len);
+                String[] a = r.split(" ");
+                if (a.length > 0) {
+                    Animals s = new Animals();
+                    int c = Integer.parseInt(a[0]);
+                    s.setNum(number);
+                    s.setAge(c);
+                    s.setName(a[1]);
+                    s.setKind(a[2]);
+                    animals.add(s);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+public class Animals {
+    private String kind;
+    private int age;
+    private String name;
+    private int num;
+    public Animals() {
+    }
+    public void setName(String name){
+        this.name = name;
+    }
+    public void setAge(int age){
+        this.age = age;
+    }
+    public void setKind(String kind){
+        this.kind = kind;
+    }
+    public void setNum(int num){
+        this.num = num;
+    }
+    public String getName() {
+        return name;
+    }
+    public int getAge() {
+        return age;
+    }
+    public String getKind() {
+        return kind;
+    }
+    public int getNum() {
+        return num;
+    }
+    public String toString(){
+        return "num:" + num +" age:" + age + " name:" + name + " kind:" + kind +"\n";
+    }
+}
